@@ -22,6 +22,16 @@ class BinarySearchTree
   end
 
   def find(value, tree_node = @root)
+    # byebug
+    return tree_node if tree_node.value == value
+    return nil if tree_node.right.nil? && tree_node.left.nil?
+
+    case value <=> tree_node.value
+    when 1
+      find(value, tree_node.right)
+    when 0, -1
+      find(value, tree_node.left)
+    end
   end
 
   def delete(value)
@@ -51,7 +61,7 @@ class BinarySearchTree
       else
         find_spot(parent_node.right, value)
       end
-    when -1 || 0
+    when -1, 0
       if parent_node.left.nil?
         parent_node.left = BSTNode.new(value)
       else
