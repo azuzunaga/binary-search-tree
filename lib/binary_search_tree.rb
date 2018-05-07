@@ -104,7 +104,7 @@ class BinarySearchTree
 
   def depth(tree_node = @root)
     depth_charge = 0
-    return depth_charge if childless?(tree_node)
+    return depth_charge if !tree_node || childless?(tree_node)
 
     left_depth = tree_node.left ? depth(tree_node.left) + 1 : 0
     right_depth = tree_node.right ? depth(tree_node.right) + 1 : 0
@@ -117,7 +117,10 @@ class BinarySearchTree
   def is_balanced?(tree_node = @root)
     return true if childless?(tree_node)
 
-    balanced_kids = depth(tree_node.left) - depth(tree_node.right) < 2
+    left_node = tree_node.left ? tree_node.left : nil
+    right_node = tree_node.right ? tree_node.right : nil
+
+    balanced_kids = depth(left_node) - depth(right_node) < 2
 
     left_balanced = tree_node.left ? is_balanced?(tree_node.left) : true
     right_balanced = tree_node.right ? is_balanced?(tree_node.right) : true
