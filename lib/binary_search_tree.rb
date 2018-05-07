@@ -116,14 +116,22 @@ class BinarySearchTree
 
   def is_balanced?(tree_node = @root)
     return true if childless?(tree_node)
-    if (depth(tree_node.right) - depth(tree_node.left)) < 2
-      is_balanced?(tree_node.left) && is_balanced?(tree_node.right)
-    else
-      false
-    end
+
+    balanced_kids = depth(tree_node.left) - depth(tree_node.right) < 2
+
+    left_balanced = tree_node.left ? is_balanced?(tree_node.left) : true
+    right_balanced = tree_node.right ? is_balanced?(tree_node.right) : true
+
+    balanced_kids && left_balanced && right_balanced
   end
 
   def in_order_traversal(tree_node = @root, arr = [])
+    return [tree_node.value] if childless?(tree_node)
+
+    left = tree_node.left ? in_order_traversal(tree_node.left) : []
+    right = tree_node.right ? in_order_traversal(tree_node.right) : []
+
+    left + [tree_node.value] + right
   end
 
 
